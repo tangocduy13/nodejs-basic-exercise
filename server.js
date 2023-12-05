@@ -1,4 +1,3 @@
-
 async function getData() {
   const [users, posts, comments] = await Promise.all([
     (await fetch("https://jsonplaceholder.typicode.com/users")).json(),
@@ -57,32 +56,19 @@ const userCount = async () => {
 
 // 6. Hiển thị user với số comments và post nhiều nhất
 const findUserWithMostCommentsOrPosts = async () => {
-  let userWithMostComments = null;
-  let maxCommentsCount = -1;
+  const usersData = await userCount();
 
-  let userWithMostPosts = null;
-  let maxPostsCount = -1;
-
-  const mappedUsers = await userCount();
-
-  //todo dùng map hoặc reduce thử xem thế nào nhé dùng như này chưa ổn lắm 
-
-  mappedUsers.forEach((user) => {
-    if (user.commentCount > maxCommentsCount) {
-      maxCommentsCount = user.commentCount;
-      userWithMostComments = user;
-    }
+  const userWithMostComments = usersData.reduce((prevUser, currentUser) => {
+    return currentUser.commentCount > prevUser.commentCount
+      ? currentUser
+      : prevUser;
   });
-  mappedUsers.forEach((user) => {
-    if (user.postCount > maxPostsCount) {
-      maxPostsCount = user.postCount;
-      userWithMostPosts = user;
-    }
+  console.log(userWithMostComments);
+
+  const userWithMostPosts = usersData.reduce((prevUser, currentUser) => {
+    return currentUser.postCount > prevUser.postCount ? currentUser : prevUser;
   });
-  console.log(
-    `User has the most comments:${JSON.stringify(userWithMostComments)}`
-  );
-  console.log(`User has the most posts:${JSON.stringify(userWithMostPosts)}`);
+  console.log(userWithMostPosts);
 };
 
 // 7. Sắp xếp user list theo thứ tự post giảm dần
@@ -131,7 +117,7 @@ const postInfor = async (postId) => {
 // })();
 
 // 6. Tìm kiếm user có nhiều comments hoặc post nhất
-// findUserWithMostCommentsOrPosts();
+findUserWithMostCommentsOrPosts();
 
 // 7. sort user list theo thứ tự postCount giảm dần
 // usersListOrderByPostCountDesc();
