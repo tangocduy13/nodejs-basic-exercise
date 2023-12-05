@@ -1,3 +1,4 @@
+
 async function getData() {
   const [users, posts, comments] = await Promise.all([
     (await fetch("https://jsonplaceholder.typicode.com/users")).json(),
@@ -8,6 +9,7 @@ async function getData() {
 }
 
 // 3. function hiển thị tất cả thông tin của user post và comment
+//prepareData
 const mapData = async () => {
   const [users, posts, comments] = await getData();
   const mappedUsers = users.map((user) => {
@@ -62,6 +64,8 @@ const findUserWithMostCommentsOrPosts = async () => {
   let maxPostsCount = -1;
 
   const mappedUsers = await userCount();
+
+  //todo dùng map hoặc reduce thử xem thế nào nhé dùng như này chưa ổn lắm 
 
   mappedUsers.forEach((user) => {
     if (user.commentCount > maxCommentsCount) {
