@@ -77,13 +77,11 @@ const fetchData = async (path) => {
     // 7. Sắp xếp user list theo thứ tự post giảm dần
     usersPostAndComments.sort((a, b) => b.postCount - a.postCount);
     console.dir(usersPostAndComments, { depth: 5 });
-
+    console.log('===cau 8===')
     // 8. Hiển thị post và comment tại postid = 1
     const [post, comment] = await Promise.all([
-      (await fetch(`https://jsonplaceholder.typicode.com/posts/1`)).json(),
-      (
-        await fetch(`https://jsonplaceholder.typicode.com/comments?postId=1`)
-      ).json(),
+      fetchData("/posts/1"),
+      fetchData("/comments?postId=1")
     ]);
 
     const postData = {
